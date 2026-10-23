@@ -1,0 +1,19 @@
+# Render Blueprint for the API. The frontend deploys separately (Vercel/Netlify).
+services:
+  - type: web
+    name: tandem-api
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false # paste your MongoDB Atlas connection string in the Render dashboard
+      - key: CLIENT_URL
+        sync: false # your frontend URL, e.g. https://tandem.vercel.app
